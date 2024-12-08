@@ -66,6 +66,8 @@ def part2(file_data: str):
     antinodes = set()
     for _, positions in antennas.items():
         for p1, p2 in combinations(positions, 2):
+            antinodes.add(p1) # Add antenna as antinodes !
+            antinodes.add(p2)
             current_antenna = apply_vector(p1, get_vector(p1, p2))
             while is_within_map(current_antenna, width, height):
                 antinodes.add(current_antenna)
@@ -75,8 +77,8 @@ def part2(file_data: str):
                 antinodes.add(current_antenna)
                 current_antenna = apply_vector(current_antenna, get_vector(p2, p1))
     # print(antinodes)
-    print_map(antinodes, width, height)
+    # print_map(antinodes, width, height)
     return len(antinodes)
 
 print(f"Part1: {part1(open('input').read())}")
-print(f"Part2: {part2(EXAMPLE_DATA)}")
+print(f"Part2: {part2(open('input').read())}")
