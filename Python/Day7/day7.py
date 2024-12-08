@@ -19,15 +19,15 @@ def parse_input():
     with open('input', 'r') as file:
         for line in file:
             numbers = list(map(int, re.findall(r'\d+', line)))
-            if numbers:  # Ensure there are numbers to process
+            if numbers:
                 key = numbers[0]
                 values = numbers[1:]
                 data.append((key,values))
     return data
 
-def generate_operations(numbers):
-    n = len(numbers) - 1  # Number of operators required
-    return list(itertools.product(['+', '*'], repeat=n))
+def generate_operations(numbers, operator_list):
+    n = len(numbers) - 1
+    return list(itertools.product(operator_list, repeat=n))
 
 def evaluate_expression_left_to_right(expression):
     tokens = expression.split()
@@ -39,19 +39,35 @@ def evaluate_expression_left_to_right(expression):
         match operator:
             case '+': result += number
             case '*': result *= number
+            case '||': result = int(str(result) + str(number))
         i += 2
     return result
 
 def part1(data_file):
     total = 0
     for target, numbers in data_file:
-        operations = generate_operations(numbers)
+        operations = generate_operations(numbers, ['+', '*'])
         for op in operations:
             expression = str(numbers[0])
             for i, num in enumerate(numbers[1::]):
                 expression += " " + op[i] + " " + str(num)
             result = evaluate_expression_left_to_right(expression)
-            print(target, expression, result==target)
+            #print(target, expression, result==target)
+            if result == target:
+                total += target
+                break
+    return total
+
+def part2(data_file):
+    total = 0
+    for target, numbers in data_file:
+        operations = generate_operations(numbers, ['+', '*', '||'])
+        for op in operations:
+            expression = str(numbers[0])
+            for i, num in enumerate(numbers[1::]):
+                expression += " " + op[i] + " " + str(num)
+            result = evaluate_expression_left_to_right(expression)
+            #print(target, expression, result==target)
             if result == target:
                 total += target
                 break
@@ -59,4 +75,5 @@ def part1(data_file):
 
 #print(f"Example: {part1(data)}")
 print(f"Part1: {part1(parse_input())}")
+print(f"Part2: {part2(parse_input())}")
 
