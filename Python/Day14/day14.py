@@ -34,15 +34,19 @@ def move_robot(robot, vel, width, high):
 robots, velocity = parse_input(open("input").read())
 
 w, h = 101, 103
-final_position = []
-for i, robot in enumerate(robots):
-    move_robot(robot, velocity[i], w, h)
-    final_position.append(move_robot(robot, velocity[i], w, h))
 
-Q1 = len([(x,y) for x, y in final_position if x < w//2 and y < h//2 ])
-Q2 = len([(x,y) for x, y in final_position if w//2 < x < w and y < h//2 ])
-Q3 = len([(x,y) for x, y in final_position if x < w//2 and h//2 < y < h ])
-Q4 = len([(x,y) for x, y in final_position if w//2 < x < w and h//2 < y < h ])
+def part1():
+    final_position = []
+    for i, robot in enumerate(robots):
+        move_robot(robot, velocity[i], w, h)
+        final_position.append(move_robot(robot, velocity[i], w, h))
 
-print(final_position)
-print(Q1*Q2*Q3*Q4)
+    Q1 = len([(x,y) for x, y in final_position if x < w//2 and y < h//2 ])
+    Q2 = len([(x,y) for x, y in final_position if w//2 < x < w and y < h//2 ])
+    Q3 = len([(x,y) for x, y in final_position if x < w//2 and h//2 < y < h ])
+    Q4 = len([(x,y) for x, y in final_position if w//2 < x < w and h//2 < y < h ])
+
+    print(final_position)
+    print(Q1*Q2*Q3*Q4)
+
+part1()
